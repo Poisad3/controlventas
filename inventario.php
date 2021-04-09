@@ -68,6 +68,7 @@
             <th>ID</th>
             <th>Producto</th>
             <th>Detalle</th>
+            <th>Precio</th>
             <th>Codigo Barras</th>
           </tr>
         </thead>
@@ -77,6 +78,7 @@
             <td><?php echo $datos['id_producto'] ?></td>
             <td><?php echo $datos['nombre_producto'] ?></td>
             <td><?php echo $datos['detalle_producto'] ?></td>
+            <td><?php echo $datos['precio'] ?></td>
             <td><?php echo $datos['cod_barra_producto'] ?></td>
             <a href="productos.php?id=<?php echo $datos['id_productos'] ?>"></a>
           </tr>
