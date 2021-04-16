@@ -2,8 +2,8 @@
     include_once 'conexion.php';
 
     //Leer base de datos
-    $sql_leer = 'SELECT * FROM producto';
-    $sleer = $conn->prepare($sql_leer);
+    $sql_leer = 'SELECT * FROM cliente';
+    $sleer = $con->prepare($sql_leer);
     $sleer->execute();
     $datosarray = $sleer->fetchall();
 ?>
@@ -62,6 +62,7 @@
 
     <div class="col s12 m8 l9">
       <!-- Teal page content  -->
+
        <table>
         <thead>
           <tr>
@@ -73,10 +74,10 @@
         <tbody>
             <?php foreach($datosarray as $datos): ?>
           <tr>
-            <td><?php echo $datos['id_cliente'] ?></td>
+            <td><?php echo $datos['id_clientes'] ?></td>
             <td><?php echo $datos['nombre_cliente'] ?></td>
             <td><?php echo $datos['nit_cliente'] ?></td>
-            <a href="clientes.php?id=<?php echo $datos['id_cliente'] ?>"></a>
+            <a href="clientes.php?id=<?php echo $datos['id_clientes'] ?>"></a>
           </tr>
             <?php endforeach ?>
         </tbody>

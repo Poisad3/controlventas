@@ -6,6 +6,31 @@
     $sleer = $con->prepare($sql_leer);
     $sleer->execute();
     $datosarray = $sleer->fetchall();
+
+    //Agregar a base de datos
+    if($_POST){
+      $nombre_producto = $_POST['producto'];
+      $detalle_producto = $_POST['detalle_producto'];
+      $precio = $_POST['precio'];
+      $cod_barra_producto = $_POST['cod_barra_producto'];
+      $proveedor = $_POST['proveedor'];
+
+
+      $sql_agregar = 'INSERT INTO producto (nombre_producto,detalle_producto, precio,cod_barra_producto,proveedor_id_proveedor) VALUES (?,?,?,?,?)';
+      $sagregar = $con->prepare($sql_agregar);
+      $sagregar->execute(array($nombre_producto,$detalle_producto,$precio,$cod_barra_producto,$proveedor));
+      header('location:inventario.php');
+    }
+
+
+    //Editar a base de datos
+    if($_GET){
+      $id = $_GET['id'];
+      $sql_editar = 'SELECT * FROM producto WHERE id_producto=?';
+      $seditar = $con->prepare($sql_editar);
+      $seditar->execute(array($id));
+      $datos_editar = $seditar->fetch();
+    }
 ?>
 <!DOCTYPE html>
 <html>
@@ -20,6 +45,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <!--Let browser know website is optimized for mobile-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
 <body>
@@ -61,6 +87,84 @@
     </div>
 
     <div class="col s12 m8 l9">
+      <!-- Agregar Producto a Base de Datos -->
+      <?php if(!$_GET): ?>
+      <h3 align="center">Agregar Producto</h3><br>
+      <form class="col s12" method="POST">
+        <div class="row">
+
+          <div class="row">
+            <div class="input-field col s6">
+              <input placeholder="Nombre Producto" id="producto" type="text" class="validate" name='producto'>
+              <label for="producto">Producto</label>
+            </div>
+            <div class="input-field col s6">
+              <input id="detalle_producto" type="text" class="validate"  name='detalle_producto'>
+              <label for="detalle_producto">Detealle Producto</label>
+            </div>
+            <div class="input-field col s6">
+              <input id="precio" type="text" class="validate" name='precio'>
+              <label for="precio">Precio</label>
+            </div>
+            <div class="input-field col s6">
+              <input id="cod_barra_producto" type="text" class="validate" name='cod_barra_producto'>
+              <label for="cod_barra_producto">Codigo Barras</label>
+            </div>
+            <div class="input-field col s6">
+              <input id="proveedor" type="text" class="validate" name='proveedor'>
+              <label for="proveedor">Codigo Proveedor</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <button class="btn waves-effect waves-light" type="submit" name="action">Guardar
+    <i class="material-icons right">save</i>
+  </button>
+            </div>
+          </div>
+        </div>
+      </form>
+      <?php endif ?>
+      
+            <!-- Editar Productos a Base de Datos -->
+      <?php if($_GET): ?>
+      <h3 align="center">Editar Producto</h3><br>
+      <form class="col s12" method="GET" action="editar.php">
+        <div class="row">
+
+          <div class="row">
+            <div class="input-field col s6">
+              <input placeholder="Nombre Producto" id="producto" type="text" class="validate" name='producto' value="<?php echo $datos_editar['nombre_producto'] ?>">
+              <label for="producto">Producto</label>
+            </div>
+            <div class="input-field col s6">
+              <input id="detalle_producto" type="text" class="validate"  name='detalle_producto' value="<?php echo $datos_editar['detalle_producto'] ?>">
+              <label for="detalle_producto">Detealle Producto</label>
+            </div>
+            <div class="input-field col s6">
+              <input id="precio" type="text" class="validate" name='precio' value="<?php echo $datos_editar['precio'] ?>">
+              <label for="precio">Precio</label>
+            </div>
+            <div class="input-field col s6">
+              <input id="cod_barra_producto" type="text" class="validate" name='cod_barra_producto' value="<?php echo $datos_editar['cod_barra_producto'] ?>">
+              <label for="cod_barra_producto">Codigo Barras</label>
+            </div>
+            <div class="input-field col s6">
+              <input id="proveedor" type="text" class="validate" name='proveedor' value=" <?php echo $datos_editar['proveedor_id_proveedor'] ?>">
+              <label for="proveedor">Codigo Proveedor</label>
+            </div>
+          </div>
+          <input id="id" type="hidden" class="validate" name='id' value=" <?php echo $datos_editar['id_producto'] ?>">
+          <div class="row">
+            <div class="input-field col s12">
+              <button class="btn waves-effect waves-light" type="submit" name="action">Editar
+    <i class="material-icons right">edit</i>
+  </button>
+            </div>
+          </div>
+        </div>
+      </form>
+      <?php endif ?>
       <!-- Teal page content  -->
       <table>
         <thead>
@@ -70,19 +174,32 @@
             <th>Detalle</th>
             <th>Precio</th>
             <th>Codigo Barras</th>
+            <th>Opciones</th>
           </tr>
         </thead>
         <tbody>
-            <?php foreach($datosarray as $datos): ?>
+          <?php foreach($datosarray as $datos): ?>
           <tr>
-            <td><?php echo $datos['id_producto'] ?></td>
-            <td><?php echo $datos['nombre_producto'] ?></td>
-            <td><?php echo $datos['detalle_producto'] ?></td>
-            <td><?php echo $datos['precio'] ?></td>
-            <td><?php echo $datos['cod_barra_producto'] ?></td>
-            <a href="productos.php?id=<?php echo $datos['id_productos'] ?>"></a>
+            <td>
+              <?php echo $datos['id_producto'] ?>
+            </td>
+            <td>
+              <?php echo $datos['nombre_producto'] ?>
+            </td>
+            <td>
+              <?php echo $datos['detalle_producto'] ?>
+            </td>
+            <td>
+              <?php echo $datos['precio'] ?>
+            </td>
+            <td>
+              <?php echo $datos['cod_barra_producto'] ?>
+            </td>
+            <td>
+            <a href="inventario.php?id=<?php echo $datos['id_producto'] ?>"><i class="material-icons">edit</i></a>
+              </td>
           </tr>
-            <?php endforeach ?>
+          <?php endforeach ?>
         </tbody>
       </table>
     </div>
