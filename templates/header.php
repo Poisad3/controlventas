@@ -19,9 +19,9 @@
     <div class="nav-wrapper">
       <a href="#" class="brand-logo">Miscelanea Emanuel</a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li><a href="index.html">Inicio</a></li>
+        <li><a href="index.php">Inicio</a></li>
         <li><a href="ofertas.html">Ofertas</a></li>
-        <li><a href="inventario.php">Inventario</a></li>
+        <li><a href="Productos/inventario.php">Inventario</a></li>
         <li><a href="configuracion.html">Configuracion</a></li>
         <li><a href="logout.html">Logout</a></li>
       </ul>
@@ -38,34 +38,3 @@
       </form>
     </div>
   </nav>
-  <!-- Page Layout here -->
-  <div class="row">
-
-    <div class="col s12 m4 l3">
-      <!-- Grey navigation panel -->
-      <ul class="collection">
-        <li class="collection-item">ToDo</li>
-        <li class="collection-item">ToDo</li>
-        <li class="collection-item">ToDo</li>
-        <li class="collection-item">ToDo</li>
-      </ul>
-    </div>
-
-    <div class="col s12 m8 l9">
-      <!-- Teal page content  -->
-
-    </div>
-  </div>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      var elems = document.querySelectorAll('.modal');
-      var instances = M.Modal.init(elems);
-    });
-    <!--JavaScript at end of body for optimized loading-->
-    <
-    script type = "text/javascript"
-    src = "js/materialize.min.js" >
-  </script>
-</body>
-
-</html>

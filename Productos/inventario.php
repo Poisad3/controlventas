@@ -1,5 +1,5 @@
 <?php 
-    include_once 'conexion.php';
+    include_once '../conexion.php';
 
     //Leer base de datos
     $sql_leer = 'SELECT * FROM producto';
@@ -54,11 +54,11 @@
     <div class="nav-wrapper">
       <a href="#" class="brand-logo">Miscelanea Emanuel</a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li><a href="index.html">Inicio</a></li>
-        <li><a href="ofertas.html">Ofertas</a></li>
+        <li><a href="../index.php">Inicio</a></li>
+        <li><a href="../ofertas.html">Ofertas</a></li>
         <li><a href="inventario.php">Inventario</a></li>
-        <li><a href="configuracion.html">Configuracion</a></li>
-        <li><a href="logout.html">Logout</a></li>
+        <li><a href="../configuracion.html">Configuracion</a></li>
+        <li><a href="../logout.html">Logout</a></li>
       </ul>
     </div>
   </nav>
@@ -79,10 +79,10 @@
     <div class="col s12 m4 l3">
       <!-- Grey navigation panel -->
       <ul class="collection">
-        <li class="collection-item">ToDo</li>
-        <li class="collection-item">ToDo</li>
-        <li class="collection-item">ToDo</li>
-        <li class="collection-item">ToDo</li>
+        <li class="collection-header"><h4>Opciones</h4></li>
+        <li class="collection-item"><a href="../Clientes/clientes.php">Clientes</a></li>
+        <li class="collection-item">Proveedores</li>
+        <li class="collection-item">Factura</li>
       </ul>
     </div>
 
@@ -190,7 +190,7 @@
               <?php echo $datos['detalle_producto'] ?>
             </td>
             <td>
-              <?php echo $datos['precio'] ?>
+              Q<?php echo $datos['precio'] ?>
             </td>
             <td>
               <?php echo $datos['cod_barra_producto'] ?>

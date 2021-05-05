@@ -5,7 +5,7 @@
 
     try{
         $con = new PDO ($instancia, $user, $pass);
-        echo 'Conectado POD';
+        //echo 'Conectado POD';
     } catch (PDOException $e) {
         print "¡Error!: " .$e->getMessage()."<br/>";
         die();
