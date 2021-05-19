@@ -3,18 +3,20 @@
     include_once 'conexion.php';
     include 'templates/header.php';
 
-
+    
     if($_GET){
+      $cantidad=$_GET['cantidad'];
       $cod_barra_producto = $_GET['cod_barra_producto'];
       $sql_editar = 'SELECT * FROM producto WHERE cod_barra_producto=?';
       $seditar = $con->prepare($sql_editar);
       $seditar->execute(array($cod_barra_producto));
-      $datos_editar = $seditar->fetch();
-      foreach ($datos_editar as $leer) {
-      echo $leer;
-        }
+      
+      $datos_editar = $seditar->fetchall();
+      //$consultar= array();
+      //array_push($consultar,$datos_editar);
     }
-
+     
+  
      // foreach ($_SESSION['CARRITO'] as $indice=>$producto){
       //  echo $producto['NOMBRE'];
      //}   
@@ -29,8 +31,7 @@
       <ul class="collection with-header" id="nav-mobile">
         <li class="collection-header"><h4>Opciones</h4></li>
         <li class="collection-item"><a href="Clientes/clientes.php">Clientes</a></li>
-        <li class="collection-item">Proveedores</li>
-        <li class="collection-item">Factura</li>
+        <li class="collection-item"><a href="proveedores/proveedores.php">Proveedores</a></li>
       </ul>
     </div>
 
@@ -42,7 +43,11 @@
            <div class="input-field col s6">
               <input id="cod_barra_producto" type="text" class="validate" name='cod_barra_producto'>
               <label for="cod_barra_producto">Codigo Barras</label>
-            </div>                  
+            </div>
+             <div class="input-field col s6">
+              <input id="cantidad" type="text" class="validate" name='cantidad'>
+              <label for="cantidad">Cantidad</label>
+            </div>      
                   </div>
           <div class="row">
             <div class="input-field col s12">
@@ -66,23 +71,25 @@
         <tbody>
              <?php if($_GET): ?>
           <?php $total=0; ?>
+          
                     <?php foreach($datos_editar as $datos): ?>
           <tr>
             <td><?php echo $datos['nombre_producto']?></td>
             <td><?php echo $datos['detalle_producto']?></td>
-            <td><input id="cantidad" type="text" class="validate" name='cantidad' value="1"></td>
+            <td><?php echo $cantidad?></td>
             <td>Q<?php echo $datos['precio']?></td>
             <td><?php echo number_format($datos['precio']*$cantidad,2);?></td>
             
             <td><i class="material-icons">delete</i></a></td>
           </tr>
+            <?php $total=$total+($datos['precio']*$cantidad);?>
           <?php endforeach ?>
           <tr>
             <td colspan="3" aling="right"><h3>
               Total
               </h3></td>
             <td aling="right"><h3>
-              Q <?php echo number_format($total,2);?>
+              Q <?php echo number_format($total);?>
               </h3></td>
              <td></td>
           </tr>

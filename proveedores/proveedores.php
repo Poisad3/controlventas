@@ -2,7 +2,7 @@
     include_once '../conexion.php';
 
     //Leer base de datos
-    $sql_leer = 'SELECT * FROM cliente';
+    $sql_leer = 'SELECT * FROM proveedor';
     $sleer = $con->prepare($sql_leer);
     $sleer->execute();
     $datosarray = $sleer->fetchall();
@@ -10,18 +10,19 @@
     //Agregar a base de datos
     if($_POST){
       $nombre = $_POST['nombre'];
-      $nit = $_POST['nit'];
-      $sql_agregar = 'INSERT INTO cliente (nombre_cliente,nit_cliente) VALUES (?,?)';
+      $direccion = $_POST['direccion'];
+      $telefono = $_POST['telefono'];
+      $sql_agregar = 'INSERT INTO proveedor (nombre_proveedor,direccion_proveedor,telefono_proveedor) VALUES (?,?,?)';
       $sagregar = $con->prepare($sql_agregar);
-      $sagregar->execute(array($nombre,$nit));
-      header('location:clientes.php');
+      $sagregar->execute(array($nombre,$direccion,$telefono));
+      header('location:proveedores.php');
     }
 
 
     //Editar a base de datos
     if($_GET){
       $id = $_GET['id'];
-      $sql_editar = 'SELECT * FROM cliente WHERE id_clientes=?';
+      $sql_editar = 'SELECT * FROM proveedor WHERE id_proveedor=?';
       $seditar = $con->prepare($sql_editar);
       $seditar->execute(array($id));
       $datos_editar = $seditar->fetch();
@@ -51,6 +52,7 @@
         <li><a href="../index.php">Inicio</a></li>
         <li><a href="../ofertas.html">Ofertas</a></li>
         <li><a href="../Productos/inventario.php">Inventario</a></li>
+        <li><a href="../configuracion.html">Configuracion</a></li>
         <li><a href="../logout.html">Logout</a></li>
       </ul>
     </div>
@@ -72,28 +74,35 @@
     <div class="col s12 m4 l3">
       <!-- Grey navigation panel -->
       <ul class="collection with-header" id="nav-mobile">
-        <li class="collection-header"><h4>Opciones</h4></li>
-        <li class="collection-item"><a href="clientes.php">Clientes</a></li>
-        <li class="collection-item"><a href="../proveedores/proveedores.php">Proveedores</a></li>
+        <li class="collection-header">
+          <h4>Opciones</h4>
+        </li>
+        <li class="collection-item"><a href="../Clientes/clientes.php">Clientes</a></li>
+        <li class="collection-item"><a href="proveedores.php">Proveedores</a></li>
+        <li class="collection-item">Factura</li>
       </ul>
     </div>
 
     <div class="col s12 m8 l9">
-      
+
       <!-- Teal page content  -->
-   <?php if(!$_GET): ?>
-      <h3 align="center">Agregar Clientes</h3><br>
+      <?php if(!$_GET): ?>
+      <h3 align="center">Agregar Proveedores</h3><br>
       <form class="col s12" method="POST">
         <div class="row">
 
           <div class="row">
             <div class="input-field col s6">
-              <input placeholder="Nombre Cliente" id="nombre" type="text" class="validate" name='nombre'>
-              <label for="nombre">Nombre Cliente</label>
+              <input placeholder="Nombre Proveedor" id="nombre" type="text" class="validate" name='nombre'>
+              <label for="nombre">Nombre Proveedor</label>
             </div>
             <div class="input-field col s6">
-              <input id="nit" type="text" class="validate"  name='nit'>
-              <label for="nit">NIT</label>
+              <input id="direccion" type="text" class="validate" name='direccion'>
+              <label for="direccion">Direccion</label>
+            </div>
+            <div class="input-field col s6">
+              <input id="telefono" type="text" class="validate" name='telefono'>
+              <label for="telefono">Telefono</label>
             </div>
           </div>
           <div class="row">
@@ -106,24 +115,28 @@
         </div>
       </form>
       <?php endif ?>
-      
-            <!-- Editar Productos a Base de Datos -->
+
+      <!-- Editar Productos a Base de Datos -->
       <?php if($_GET): ?>
-      <h3 align="center">Editar Clientes</h3><br>
+      <h3 align="center">Editar Proveedores</h3><br>
       <form class="col s12" method="GET" action="editar.php">
         <div class="row">
 
           <div class="row">
             <div class="input-field col s6">
-              <input placeholder="Nombre Cliente" id="nombre" type="text" class="validate" name='nombre' value="<?php echo $datos_editar['nombre_cliente'] ?>">
-              <label for="nombre">Nombre Cliente</label>
+              <input placeholder="Nombre Proveedores" id="nombre" type="text" class="validate" name='nombre' value="<?php echo $datos_editar['nombre_proveedor'] ?>">
+              <label for="nombre">Nombre Proveedores</label>
             </div>
             <div class="input-field col s6">
-              <input id="nit" type="text" class="validate"  name='nit' value="<?php echo $datos_editar['nit_cliente'] ?>">
-              <label for="nit">NIT Cliente</label>
+              <input id="direccion" type="text" class="validate" name='direccion' value="<?php echo $datos_editar['direccion_proveedor'] ?>">
+              <label for="nit">Direccion Proveedor</label>
+            </div>
+            <div class="input-field col s6">
+              <input id="telefono" type="text" class="validate" name='telefono' value="<?php echo $datos_editar['telefono_proveedor'] ?>">
+              <label for="nit">Telefono Proveedor</label>
             </div>
           </div>
-          <input id="id" type="hidden" class="validate" name='id' value=" <?php echo $datos_editar['id_clientes'] ?>">
+          <input id="id" type="hidden" class="validate" name='id' value=" <?php echo $datos_editar['id_proveedor'] ?>">
           <div class="row">
             <div class="input-field col s12">
               <button class="btn waves-effect waves-light" type="submit" name="action">Editar
@@ -134,26 +147,36 @@
         </div>
       </form>
       <?php endif ?>
-       <table>
+      <table>
         <thead>
           <tr>
             <th>ID</th>
             <th>Nombre</th>
-            <th>NIT</th>
+            <th>Direccion</th>
+            <th>Telefono</th>
             <th>Opciones</th>
           </tr>
         </thead>
         <tbody>
-            <?php foreach($datosarray as $datos): ?>
+          <?php foreach($datosarray as $datos): ?>
           <tr>
-            <td><?php echo $datos['id_clientes'] ?></td>
-            <td><?php echo $datos['nombre_cliente'] ?></td>
-            <td><?php echo $datos['nit_cliente'] ?></td>
             <td>
-            <a href="clientes.php?id=<?php echo $datos['id_clientes'] ?>"><i class="material-icons">edit</i></a>
+              <?php echo $datos['id_proveedor'] ?>
+            </td>
+            <td>
+              <?php echo $datos['nombre_proveedor'] ?>
+            </td>
+            <td>
+              <?php echo $datos['direccion_proveedor'] ?>
+            </td>
+            <td>
+              <?php echo $datos['telefono_proveedor'] ?>
+            </td>
+            <td>
+              <a href="proveedores.php?id=<?php echo $datos['id_proveedor'] ?>"><i class="material-icons">edit</i></a>
             </td>
           </tr>
-            <?php endforeach ?>
+          <?php endforeach ?>
         </tbody>
       </table>
     </div>

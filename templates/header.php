@@ -22,7 +22,6 @@
         <li><a href="index.php">Inicio</a></li>
         <li><a href="ofertas.html">Ofertas</a></li>
         <li><a href="Productos/inventario.php">Inventario</a></li>
-        <li><a href="configuracion.html">Configuracion</a></li>
         <li><a href="logout.html">Logout</a></li>
       </ul>
     </div>
